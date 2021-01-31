@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 
+const passwordConfig = require('../config/passport');
+
 
 router.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -14,10 +16,15 @@ router.use((req, res, next) => {
 
 
 //importamos los controladores de rutas
-const Usuario = require('../controllers/usuariosController');
+const controladorUsuario = require('../controllers/usuariosController');
 
 
-router.post("/crear-usuario",Usuario.crearUsuarios);
+router.post("/crear-usuario", controladorUsuario.crearUsuarios);
+router.post("/login", controladorUsuario.postLogin);
+router.get("/logout", passwordConfig.estaAutenticado, controladorUsuario.logout);
 
+router.get("/info-usuario", passwordConfig.estaAutenticado, (req, res) => {
+    res.json(req.user)
+})
 //exportamos el modulo de router
 module.exports = router;
