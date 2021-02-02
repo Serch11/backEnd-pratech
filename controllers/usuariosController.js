@@ -4,18 +4,20 @@ const jwt = require('jsonwebtoken');
 
 
 const UsuariosController = {
-
-    crearUsuarios: (req, res) => {
-
+    
+        crearUsuarios: (req, res) => {
+            var cedula = req.body.cedula;
+            var email = req.body.email;
+            console.log(req.body)
         if (typeof req.body.email === 'string' && typeof req.body.password === 'string') {
 
             if (req.body.email && req.body.password) {
                 console.log(req.body.email)
-                Usuario.findOne({ email: req.body.email }, (err, dosc) => {
+                Usuario.findOne({ email: email }, (err, dosc) => {
                     if (err) return res.status(500).send({ message: "Error al buscar en la base de datos" });
                     if (!dosc) {
-
-                        Usuario.findOne({ cedula: req.body.cedula }, (err, dosc) => {
+                        console.log("entro en la cedula")
+                        Usuario.findOne({ cedula:cedula }, (err, dosc) => {
                             if (err) return res.status(500).send({ message: "Error al buscar en la base de datos" });
                             if (!dosc) {
                                 let usuario = new Usuario();
@@ -36,7 +38,6 @@ const UsuariosController = {
                                     })
                                 })
                             }
-                            return res.json({ message: "El usuarios existe en la base de datos", ok: false })
                         })
                     }
                     if (dosc) return res.json({ message: "El usuarios existe en la base de datos", ok: false })
