@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const usuarioSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    nombre: { type: String, required: true }
+    nombres: { type: String, required: true },
+    cedula: { type: String, required: true },
+    genero: { type: String, required: true }
 }, {
     timestamps: true,
 })
